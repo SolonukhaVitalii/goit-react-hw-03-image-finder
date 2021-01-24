@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import s from './Searchbar.module.css';
+import { toast } from 'react-toastify';
 
 class Searchbar extends Component {
 
     state = {
         photoName: '',
-    }
+    };
 
-    hendleChange = e => {
+    hendleNameChange = e => {
         const { photoName, value } = e.currentTarget;
-        this.setState({ [photoName]: value }); 
-    }
+        this.setState({ [photoName]: value.toLowerCase() });
+    };
 
     hendleSubmit = e => {
         e.preventDefault();
+        if (this.state.photoName.trim() === '') {
+           return toast.error('Введіть правильне імя !');
+        }
+        this.props.onSubmit(this.state.photoName);
         this.setState({ photoName: '' });
-    }
+    }; 
     
     render() {
         return (
@@ -27,11 +32,12 @@ class Searchbar extends Component {
                     <input
                         className={s.input}
                         type="text"
-                        autocomplete="off"
+                        name="photoName"
+                        autoComplete="off"
                         //autofocus
                         //placeholder="Search images and photos"
                         value={this.state.photoName}
-                        onChange={this.handleChange}
+                        onChange={this.handleNameChange}
                     />
                 </form>
             </header>  

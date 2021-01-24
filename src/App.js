@@ -1,46 +1,67 @@
 import React, { Component } from 'react';
 import s from './App.module.css';
-import Button from './components/Button';
+import { ToastContainer } from 'react-toastify';
+import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery';
 import ImageGalleryItem from './components/ImageGalleryItem';
-import Loader from './components/Loader';
 import Modal from './components/Modal';
-import Searchbar from './components/Searchbar';
+import Button from './components/Button';
+import Loader from './components/Loader';
+import photoApi from './components/Services/PhotoApi';
 
 
-class App extends Component {
-
+export default class App extends Component {
+  
   state = {
-    img: []
+    photoName: ' ',
+    loading: false,
+    error: null,
   }
 
   componentDidMount() {
+    this.setState({ loading: true });
 
-  }
+    photoApi
+      .fetchphotoWithQery('react')
+      .then(photoName => this.setState({ photoName }))
+      .catch(error => this.setState({ error }))
+      .finally(() => this.setState({ loading: false}));
+  };
+
   componentDidUpdate() {
 
-  }
+  };
 
+  handleFormSubmit = photoName => {
+    this.setState({ photoName });
+  };
+  
   toggleModal = () => {
-    this.setState(({ schowModal }) => ({
-      schowModal: !schowModal,
-    }));
+    this.setState(({ schowModal }) => (
+      { schowModal: !schowModal }));
   };
 
   render() { 
-    const { schowModal } = this.state;
+    const { schowModal, photoName } = this.state;
     return (
       <div className={s.app}>
-        <Searchbar />
-        <ImageGallery />
-        {schowModal && (<Modal onClose={this.toggleModal}><ImageGalleryItem
-          onClick={this.toggleModal}/></Modal>
-        )}
+        <Searchbar
+          onSubmit={this.handleFormSubmit}
+        />
+        {photoName && (<ImageGallery />)}
+        {schowModal && (<Modal onClose={this.toggleModal} />)}
+        <ImageGalleryItem 
+          photoName={photoName}
+          /*id={this.state.photoName.id}
+          alt={this.state.photoName.tags}
+          data-source={this.state.photoName.largeImageURL}
+          onClick={() => (this.state.photoName.largeImageURL)}*/
+        />
         <Button />
         <Loader />
+        <ToastContainer />
+        
       </div>
     );
   };
 };
-
-export default App;
