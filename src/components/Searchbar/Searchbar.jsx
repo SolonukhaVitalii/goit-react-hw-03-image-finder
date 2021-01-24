@@ -1,11 +1,31 @@
 import React, { Component } from 'react';
 import s from './Searchbar.module.css';
 import { toast } from 'react-toastify';
+import photoApi from '../Services/PhotoApi';
+import Modal from '../Modal';
+import ImageGallery from '../ImageGallery';
 
 class Searchbar extends Component {
 
     state = {
-        photoName: '',
+        photoName: ' ',
+        loading: false,
+        error: null,
+    };
+
+    componentDidMount() {
+    this.setState({ loading: true });
+
+    photoApi
+      .fetchphotoWithQery('react')
+      .then(photoName => this.setState({ photoName }))
+      .catch(error => this.setState({ error }))
+      .finally(() => this.setState({ loading: false}));
+    };
+
+    toggleModal = () => {
+        this.setState(({ schowModal }) => (
+        { schowModal: !schowModal }));
     };
 
     hendleNameChange = e => {
@@ -23,6 +43,7 @@ class Searchbar extends Component {
     }; 
     
     render() {
+        const { schowModal, photoName } = this.state;
         return (
             <header className={s.searchbar}>
                 <form className={s.form} onSubmit={this.handleSubmit}>
@@ -34,13 +55,13 @@ class Searchbar extends Component {
                         type="text"
                         name="photoName"
                         autoComplete="off"
-                        //autofocus
-                        //placeholder="Search images and photos"
                         value={this.state.photoName}
                         onChange={this.handleNameChange}
                     />
                 </form>
-            </header>  
+                {photoName && (<ImageGallery />) }
+                {schowModal && (<Modal onClose={this.toggleModal} />)}
+            </header>
         );
     };
 };
