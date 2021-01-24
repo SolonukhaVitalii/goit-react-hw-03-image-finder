@@ -14,13 +14,28 @@ class App extends Component {
     img: []
   }
 
+  componentDidMount() {
+
+  }
+  componentDidUpdate() {
+
+  }
+
+  toggleModal = () => {
+    this.setState(({ schowModal }) => ({
+      schowModal: !schowModal,
+    }));
+  };
+
   render() { 
+    const { schowModal } = this.state;
     return (
       <div className={s.app}>
         <Searchbar />
         <ImageGallery />
-        <ImageGalleryItem />
-        <Modal />
+        {schowModal && (<Modal onClose={this.toggleModal}><ImageGalleryItem
+          onClick={this.toggleModal}/></Modal>
+        )}
         <Button />
         <Loader />
       </div>
