@@ -6,6 +6,7 @@ export default class ImageGalleryItem extends Component {
     state = {
         photo: null,
         loading: false,
+        error: null,
     }
 
     componentDidMount() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import s from './Searchbar.module.css';
 import { toast } from 'react-toastify';
-import photoApi from '../Services/PhotoApi';
+//import photoApi from '../Services/PhotoApi';
 import Modal from '../Modal';
 import ImageGallery from '../ImageGallery';
 
@@ -13,7 +13,7 @@ class Searchbar extends Component {
         error: null,
     };
 
-    componentDidMount() {
+    /*componentDidMount() {
     this.setState({ loading: true });
 
     photoApi
@@ -21,7 +21,7 @@ class Searchbar extends Component {
       .then(photoName => this.setState({ photoName }))
       .catch(error => this.setState({ error }))
       .finally(() => this.setState({ loading: false}));
-    };
+    };*/
 
     toggleModal = () => {
         this.setState(({ schowModal }) => (
