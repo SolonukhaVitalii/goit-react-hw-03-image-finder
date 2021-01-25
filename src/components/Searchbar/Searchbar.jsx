@@ -1,69 +1,50 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import s from './Searchbar.module.css';
-import { toast } from 'react-toastify';
-//import photoApi from '../Services/PhotoApi';
-import Modal from '../Modal';
-import ImageGallery from '../ImageGallery';
 
 class Searchbar extends Component {
-
     state = {
-        photoName: ' ',
-        loading: false,
-        error: null,
+        inputValue: '',
     };
 
-    /*componentDidMount() {
-    this.setState({ loading: true });
+    hendleSubmitForm = e => {
+        const { onSubmit } = this.props;
+        const { inputValue } = this.state;
 
-    photoApi
-      .fetchphotoWithQery('react')
-      .then(photoName => this.setState({ photoName }))
-      .catch(error => this.setState({ error }))
-      .finally(() => this.setState({ loading: false}));
-    };*/
-
-    toggleModal = () => {
-        this.setState(({ schowModal }) => (
-        { schowModal: !schowModal }));
-    };
-
-    hendleNameChange = e => {
-        const { photoName, value } = e.currentTarget;
-        this.setState({ [photoName]: value.toLowerCase() });
-    };
-
-    hendleSubmit = e => {
         e.preventDefault();
-        if (this.state.photoName.trim() === '') {
-           return toast.error('Введіть правильне імя !');
-        }
-        this.props.onSubmit(this.state.photoName);
-        this.setState({ photoName: '' });
-    }; 
+        onSubmit(inputValue);
+        this.setState({ inputValue: '' });
+    };
+    
+    handleChangeInput = ({ currentTarget }) => {
+    this.setState({ inputValue: currentTarget.value });
+    };
     
     render() {
-        const { schowModal, photoName } = this.state;
+        const { inputValue } = this.state;
         return (
-            <header className={s.searchbar}>
-                <form className={s.form} onSubmit={this.handleSubmit}>
-                    <button type="submit" className={s.button}>
-                        <span className={s.buttonLabel}>Search</span>
+            <header className={s.Searchbar}>
+                <form className={s.Searchform} onSubmit={this.handleSubmitForm}>
+                    <button type="submit" className={s.SearchFormButton}>
+                        <span className={s.SearchFormButtonLabel}>Search</span>
                     </button>
                     <input
-                        className={s.input}
+                        className={s.SearchFormInput}
                         type="text"
-                        name="photoName"
                         autoComplete="off"
-                        value={this.state.photoName}
-                        onChange={this.handleNameChange}
+                        autoFocus
+                        placeholder="Search images and photos"
+                        value={inputValue}
+                        onChange={this.handleChangeInput}
                     />
                 </form>
-                {photoName && (<ImageGallery />) }
-                {schowModal && (<Modal onClose={this.toggleModal} />)}
             </header>
         );
     };
+};
+
+Searchbar.ptopTypes = {
+    onSubmit: PropTypes.func.isRequired,
 };
 
 export default Searchbar;

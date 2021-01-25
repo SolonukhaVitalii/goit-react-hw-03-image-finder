@@ -1,18 +1,11 @@
 import React from 'react';
-//import PropTypes from 'prop-types';
+import ImageGalleryItem from './ImageGalleryItem';
 import s from './ImageGallery.module.css';
-import ImageGalleryItem from '../ImageGalleryItem';
 
-
-const ImageGallery = props => (
-    <ul className={s.imageGallery}>
-        <ImageGalleryItem />
-    </ul>
+const ImageGallery = ({ imagesArr, onImageClick }) => (
+  <ul className={s.ImageGallery}>
+    <ImageGalleryItem imagesArr={imagesArr} onImageClick={onImageClick} />
+  </ul>
 );
-    
-
-ImageGallery.propTypes = {
-    
-};
 
 export default ImageGallery;
