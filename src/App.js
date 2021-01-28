@@ -6,9 +6,9 @@ import Button from './components/Button';
 import Loader from './components/Loader';
 import Error from './components/Error';
 import Modal from './components/Modal';
-import api from './services/api';
+import Api from './services/api';
 
-export default class App extends Component {
+class App extends Component {
   state = {
     imagesArr: [],
     currentPage: 1,
@@ -29,7 +29,7 @@ export default class App extends Component {
       }
     }
   };
-  
+
   onSubmitSearch = searchQuery => {
     if (searchQuery !== this.state.searchQuery) {
       this.setState({
@@ -75,7 +75,7 @@ export default class App extends Component {
 
     this.setState({ isLoadingArr: true, error: null });
 
-    await api
+    await Api
       .fetchImages(options)
       .then(hits => {
         this.setState(prevState => ({
@@ -90,7 +90,7 @@ export default class App extends Component {
   };
 
   render() {
-     const {
+    const {
       imagesArr,
       isLoadingArr,
       isLoadingImg,
@@ -101,8 +101,8 @@ export default class App extends Component {
       searchQuery,
     } = this.state;
     const shouldRenderloadMoreBtn = imagesArr.length > 0 && !isLoadingArr;
-    
-   return (
+
+    return (
       <div className={s.App}>
         {largeImageLink && (
           <Modal onClose={this.onCloseModal}>
@@ -127,4 +127,6 @@ export default class App extends Component {
       </div>
     );
   }
-};
+}
+
+export default App;

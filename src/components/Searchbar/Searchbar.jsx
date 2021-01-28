@@ -10,8 +10,8 @@ class Searchbar extends Component {
     hendleSubmitForm = e => {
         const { onSubmit } = this.props;
         const { inputValue } = this.state;
-
-        e.preventDefault();
+        
+        e.currentTarget.preventDefault();
         onSubmit(inputValue);
         this.setState({ inputValue: '' });
     };
