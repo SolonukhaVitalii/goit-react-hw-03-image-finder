@@ -6,7 +6,7 @@ import Button from './components/Button';
 import Loader from './components/Loader';
 import Error from './components/Error';
 import Modal from './components/Modal';
-import Api from './services/api';
+import imagesApi from './services/images-api';
 
 class App extends Component {
   state = {
@@ -75,7 +75,7 @@ class App extends Component {
 
     this.setState({ isLoadingArr: true, error: null });
 
-    await Api
+    await imagesApi
       .fetchImages(options)
       .then(hits => {
         this.setState(prevState => ({

@@ -7,17 +7,17 @@ class Searchbar extends Component {
         inputValue: '',
     };
 
-    hendleSubmitForm = e => {
+    handleSubmitForm = e => {
         const { onSubmit } = this.props;
         const { inputValue } = this.state;
         
-        e.currentTarget.preventDefault();
+        e.preventDefault();
         onSubmit(inputValue);
         this.setState({ inputValue: '' });
     };
     
-    handleChangeInput = ({ currentTarget }) => {
-    this.setState({ inputValue: currentTarget.value });
+    handleChangeInput = ({ currentTarget }) => { 
+        this.setState({ inputValue: currentTarget.value });
     };
     
     render() {
@@ -26,7 +26,7 @@ class Searchbar extends Component {
             <header className={s.Searchbar}>
                 <form className={s.Searchform} onSubmit={this.handleSubmitForm}>
                     <button type="submit" className={s.SearchFormButton}>
-                        <span className={s.SearchFormButtonLabel}>Search</span>
+                        <span className={s.SearchFormButtonLabel}></span>
                     </button>
                     <input
                         className={s.SearchFormInput}
